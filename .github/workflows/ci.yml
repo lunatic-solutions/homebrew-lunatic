@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: "Check out repository"
         uses: actions/checkout@v1
+        with:
+          ref: "main"
       - name: "Update version"
         run: |
           wget https://github.com/lunatic-solutions/lunatic/releases/download/v${{ github.event.inputs.version }}/lunatic-macos-amd64.tar.gz
