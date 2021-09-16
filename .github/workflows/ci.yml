@@ -6,7 +6,7 @@ on:
         description: "Latest lunatic version (e.g. 0.6.32)"
         required: true
 jobs:
-  test:
+  update-version:
     runs-on: ubuntu-latest
     steps:
       - name: "Check out repository"
@@ -15,7 +15,8 @@ jobs:
         run: |
           wget https://github.com/lunatic-solutions/lunatic/releases/download/v${{ github.event.inputs.version }}/lunatic-macos-amd64.tar.gz
           export SHA256=$(shasum -a 256 lunatic-macos-amd64.tar.gz | cut -d ' ' -f 1)
-          sed -i '' -E 's/[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+/0.7.10/g' Formula/lunatic.rb
+          sed -i -E 's/[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+/${{ github.event.inputs.version }}/' Formula/lunatic.rb
+          sed -i -E 's/sha256 .+/sha256 "'$256'"/' Formula/lunatic.rb
           git config --global user.name "Github Action 'Update lunatic' workflow"
           git config --global user.email "bernard@lunatic.solutions"
           git add Formula/lunatic.rb
