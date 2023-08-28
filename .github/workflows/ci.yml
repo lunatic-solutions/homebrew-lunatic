@@ -15,8 +15,8 @@ jobs:
           ref: "main"
       - name: "Update version"
         run: |
-          wget https://github.com/lunatic-solutions/lunatic/releases/download/v${{ github.event.inputs.version }}/lunatic-macos-universal.tar.gz
-          export SHA256=$(shasum -a 256 lunatic-macos-universal.tar.gz | cut -d ' ' -f 1)
+          wget https://github.com/lunatic-solutions/lunatic/archive/v${{ github.event.inputs.version }}.tar.gz
+          export SHA256=$(shasum -a 256 v0.13.2.tar.gz | cut -d ' ' -f 1)
           sed -i -E 's/[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+/${{ github.event.inputs.version }}/' Formula/lunatic.rb
           sed -i -E 's/sha256 .+/sha256 "'$SHA256'"/' Formula/lunatic.rb
           git config --global user.name "Github Action 'Update lunatic' workflow"
